@@ -1,0 +1,37 @@
+keeptabs.tools
+==============
+
+.. automodule:: keeptabs.tools
+
+   
+   .. rubric:: Module Attributes
+
+   .. autosummary::
+   
+      TOOLS
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      add_action
+      add_entity
+      add_keywords
+      add_source
+      components
+      digest
+      due
+      edit_watch
+      entities
+      examples
+      init_watch
+      items
+      pending
+      remove_source
+      resolve_action
+      schedule
+      tick
+      watch
+      watches
+      whats_new
+   

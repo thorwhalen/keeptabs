@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "built_at": "2026-09-27T09:00:00Z",
+  "package": {
+    "name": "keeptabs",
+    "version": "0.0.1",
+    "display_name": "keeptabs",
+    "source": "pyproject.toml"
+  },
+  "git": {
+    "available": true,
+    "commit": "ce2ec5e95d6af3deb1673b47b2f0bf32ebb57233",
+    "short_commit": "ce2ec5e",
+    "branch": "main",
+    "tags": [],
+    "dirty": false,
+    "remote_url": "https://github.com/thorwhalen/keeptabs",
+    "commit_url": "https://github.com/thorwhalen/keeptabs/commit/ce2ec5e95d6af3deb1673b47b2f0bf32ebb57233",
+    "error": null
+  },
+  "ci": {
+    "provider": "github",
+    "repository": "thorwhalen/keeptabs",
+    "sha": "ce2ec5e95d6af3deb1673b47b2f0bf32ebb57233",
+    "sha_in_history": true,
+    "ref": "refs/heads/main",
+    "ref_name": "main",
+    "run_id": "36307882619",
+    "run_url": "https://github.com/thorwhalen/keeptabs/actions/runs/36307882619",
+    "server_url": "https://github.com"
+  },
+  "tools": {
+    "epythet": "0.2.12",
+    "sphinx": "9.1.0",
+    "docutils": "0.22.4",
+    "python": "3.12.14"
+  },
+  "config": {
+    "theme": "auto",
+    "html_theme": "pydata_sphinx_theme",
+    "accent": "#665900",
+    "mode": "auto",
+    "api_generator": "autosummary",
+    "ignore": [
+      "tests/",
+      "scrap/",
+      "examples/"
+    ],
+    "agent_outputs": true,
+    "aggregates": [
+      "md"
+    ],
+    "ai_artifacts": true,
+    "provenance": true,
+    "docs_dir": "docsrc"
+  },
+  "site": {
+    "modules_documented": 9,
+    "objects_documented": 85
+  },
+  "pypi": {
+    "checked": true,
+    "latest": null,
+    "relation": "unknown",
+    "error": null
+  },
+  "reproduce": "git clone https://github.com/thorwhalen/keeptabs && cd keeptabs\ngit checkout ce2ec5e95d6af3deb1673b47b2f0bf32ebb57233\npip install \"epythet==0.2.12\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
+  "warnings": [],
+  "alignment": {
+    "aligned": true,
+    "notes": []
+  }
+}

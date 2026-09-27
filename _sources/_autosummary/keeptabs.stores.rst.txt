@@ -1,0 +1,21 @@
+keeptabs.stores
+===============
+
+.. automodule:: keeptabs.stores
+
+   
+   .. rubric:: Module Attributes
+
+   .. autosummary::
+   
+      STORE_KINDS
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      json_store
+      memory_mall
+      spec_store
+      watch_mall
+   

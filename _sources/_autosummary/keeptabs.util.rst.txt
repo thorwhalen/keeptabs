@@ -1,0 +1,22 @@
+keeptabs.util
+=============
+
+.. automodule:: keeptabs.util
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      app_dir
+      canonical_url
+      is_safe_id
+      isoformat
+      item_id
+      parse_duration
+      rootdir
+      slug
+      timestamp_key
+      to_datetime
+      utcnow
+   

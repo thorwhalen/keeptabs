@@ -1,0 +1,23 @@
+keeptabs.spec
+=============
+
+.. automodule:: keeptabs.spec
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      as_bool
+      blocked_source_ids
+      normalize_source
+      normalize_spec
+      str_list
+      target_field
+   
+   .. rubric:: Exceptions
+
+   .. autosummary::
+   
+      SpecError
+   

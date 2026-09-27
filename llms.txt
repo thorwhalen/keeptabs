@@ -1,0 +1,28 @@
+# keeptabs
+
+> Technology watch for people who work with AI agents: say what to follow, let a scheduled run collect what is new, ask what changed
+
+
+## Pages
+
+- [keeptabs](index.html.md): Keep tabs on the subjects you care about: say what to follow, let a scheduled run collect what is ne...
+- [API reference](api.html.md): | &#96;keeptabs&#96;   | Keep tabs on the subjects you care about (technology watch; in French, "veille").  ...
+- [keeptabs](_autosummary/keeptabs.html.md): Keep tabs on the subjects you care about (technology watch; in French, “veille”).
+- [keeptabs.tools](_autosummary/keeptabs.tools.html.md): The operations of keeptabs, as plain functions: JSON-able arguments in, a
+- [keeptabs.digest](_autosummary/keeptabs.digest.html.md): Answering “what’s new”, writing it up, and delivering it.
+- [keeptabs.engine](_autosummary/keeptabs.engine.html.md): The scheduled run: work out what is due, acquire it, match it, store it.
+- [keeptabs.fetchers](_autosummary/keeptabs.fetchers.html.md): Acquiring raw items from each kind of source.
+- [keeptabs.matching](_autosummary/keeptabs.matching.html.md): Deciding whether an item belongs to a watch, and to which part of it.
+- [keeptabs.spec](_autosummary/keeptabs.spec.html.md): The watch specification: what one tracked area is, and how it is watched.
+- [keeptabs.stores](_autosummary/keeptabs.stores.html.md): Where specs and acquired data live, behind &#96;MutableMapping&#96; interfaces.
+- [keeptabs.util](_autosummary/keeptabs.util.html.md): Small pure helpers: app directories, durations, timestamps, URL canonicalisation.
+- [For AI agents](ai-agents.html.md): &#96;keeptabs&#96; ships artifacts for coding agents alongside its code. This page lists
+- [About this build](about-this-build.html.md): This documentation was built on &#42;&#42;2026-09-27 09:00 UTC&#42;&#42; from commit &lt;a href="https://github.com/tho...
+
+## Optional
+
+- [keeptabs.md](keeptabs.md): Complete documentation in a single file.
+
+## Build
+
+- [build_info.json](build_info.json): build provenance (commit, version, tool versions, whether the docs match the package)

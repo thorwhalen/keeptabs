@@ -1,0 +1,20 @@
+# keeptabs
+
+> Technology watch for people who work with AI agents: say what to follow, let a scheduled run collect what is new, ask what changed
+
+
+## Pages in this subsection
+
+- [keeptabs](keeptabs.html.md): Keep tabs on the subjects you care about (technology watch; in French, “veille”).
+- [keeptabs.tools](keeptabs.tools.html.md): The operations of keeptabs, as plain functions: JSON-able arguments in, a
+- [keeptabs.digest](keeptabs.digest.html.md): Answering “what’s new”, writing it up, and delivering it.
+- [keeptabs.engine](keeptabs.engine.html.md): The scheduled run: work out what is due, acquire it, match it, store it.
+- [keeptabs.fetchers](keeptabs.fetchers.html.md): Acquiring raw items from each kind of source.
+- [keeptabs.matching](keeptabs.matching.html.md): Deciding whether an item belongs to a watch, and to which part of it.
+- [keeptabs.spec](keeptabs.spec.html.md): The watch specification: what one tracked area is, and how it is watched.
+- [keeptabs.stores](keeptabs.stores.html.md): Where specs and acquired data live, behind &#96;MutableMapping&#96; interfaces.
+- [keeptabs.util](keeptabs.util.html.md): Small pure helpers: app directories, durations, timestamps, URL canonicalisation.
+
+## Optional
+
+- [Top-level llms.txt](../llms.txt): Complete documentation index.

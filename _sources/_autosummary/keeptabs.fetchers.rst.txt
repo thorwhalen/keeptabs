@@ -1,0 +1,26 @@
+keeptabs.fetchers
+=================
+
+.. automodule:: keeptabs.fetchers
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      extract_links
+      fetch_arxiv
+      fetch_email
+      fetch_feed
+      fetch_github_releases
+      fetch_hackernews
+      fetch_news_search
+      http_get
+      strip_html
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      Response
+   

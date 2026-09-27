@@ -1,0 +1,12 @@
+keeptabs.matching
+=================
+
+.. automodule:: keeptabs.matching
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      keyword_matcher
+   

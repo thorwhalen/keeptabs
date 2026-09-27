@@ -1,0 +1,51 @@
+﻿keeptabs
+========
+
+.. automodule:: keeptabs
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      deliver
+      escape_text
+      http_get
+      keyword_matcher
+      make_digest
+      memory_mall
+      normalize_spec
+      render_markdown
+      scheduled_digest
+      spec_store
+      tick
+      watch_mall
+      whats_new
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      Response
+   
+   .. rubric:: Exceptions
+
+   .. autosummary::
+   
+      AlreadyRunning
+      SpecError
+   
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   tools
+   digest
+   engine
+   fetchers
+   matching
+   spec
+   stores
+   util

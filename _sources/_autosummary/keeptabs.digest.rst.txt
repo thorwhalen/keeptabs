@@ -1,0 +1,17 @@
+keeptabs.digest
+===============
+
+.. automodule:: keeptabs.digest
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      deliver
+      escape_text
+      make_digest
+      render_markdown
+      scheduled_digest
+      whats_new
+   
