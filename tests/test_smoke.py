@@ -109,4 +109,4 @@ def test_the_scheduled_digest_comes_after_one_period_and_respects_auto_send(watc
     assert _run(watch, web, on_digest_due=on_due)["digests"] == []
     week_later = _run(watch, web, now=T0 + timedelta(days=7, minutes=1), on_digest_due=on_due)
     assert week_later["digests"][0]["total_new"] == 4
-    assert sent == [True]  # auto_send is off by default, so nothing left the machine
+    assert sent == [True] and not week_later["digests"][0]["sent"]  # auto_send is off by default, so nothing left the machine

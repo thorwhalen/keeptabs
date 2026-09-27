@@ -17,7 +17,7 @@ Tests pass `now=` to `tick`. Never call the clock directly in the engine.
 
 `whats_new` returns data. A summarizer turns it into text, and `render_markdown` is the default with no model. A model-based summarizer must cite item ids and let code resolve them to URLs; `test_whats_new_groups_by_subtopic_and_links_only_stored_items` is the guard.
 
-A watch's first digest comes one full period after its first tick. A period with nothing new is skipped. A dry run changes no state: only a digest that is sent, or made by the scheduled run, marks its items as reported.
+A watch's first digest comes one full period after its first tick. A period with nothing new is skipped. A dry run changes no state. Items count as reported when a digest was sent and every channel took it, or when the scheduled run wrote a digest for a watch that has no channel. With channels and no `auto_send`, the scheduled run marks nothing: the items wait for the owner's send. The ids reported last are kept in the `digest` state, so an item acquired in the same second as a digest is not lost.
 
 ## Delivery
 

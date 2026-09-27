@@ -36,6 +36,35 @@ from keeptabs.util import (
 EXAMPLES_DIR = "data/examples"
 DEFAULT_TICK_EVERY_MINUTES = 30
 LAUNCHD_LABEL = "com.keeptabs.tick"
+LAUNCHD_TEMPLATE = """<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key><string>{label}</string>
+    <key>ProgramArguments</key>
+    <array>
+{arguments}
+    </array>
+    <key>StartInterval</key><integer>{seconds}</integer>
+    <key>RunAtLoad</key><true/>
+</dict>
+</plist>"""
+SYSTEMD_TEMPLATE = """# keeptabs.service
+[Unit]
+Description=keeptabs tick
+
+[Service]
+Type=oneshot
+ExecStart={command}
+
+# keeptabs.timer
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec={minutes}min
+Persistent=true
+
+[Install]
+WantedBy=timers.target"""
 
 
 def components(rootdir=None) -> dict:
@@ -50,7 +79,7 @@ def components(rootdir=None) -> dict:
         "matcher": keyword_matcher,
         "summarizer": _digest.render_markdown,
         "senders": None,
-        "lock": engine.tick_lock(rootdir),
+        "lock": lambda: engine.tick_lock(rootdir),  # a new lock for each run
     }
 
 
@@ -85,12 +114,23 @@ def examples() -> dict:
     return {"ok": True, "examples": names}
 
 
-def watches(*, rootdir: str = None) -> dict:
-    """List the watches: id, title, number of sources, and how many human actions are open."""
-    specs = components(rootdir)["specs"]
-    rows = []
+def _each_spec(specs):
+    """Each watch id with its checked spec, or with the error that makes it unusable."""
     for watch_id in sorted(specs):
-        spec = normalize_spec(specs[watch_id], watch_id=watch_id)
+        try:
+            yield watch_id, normalize_spec(specs[watch_id], watch_id=watch_id), None
+        except Exception as error:  # one broken spec must not hide the others
+            yield watch_id, None, f"{type(error).__name__}: {error}"
+
+
+def watches(*, rootdir: str = None) -> dict:
+    """List the watches: id, title, number of sources, and how many human actions are open. A watch whose specification cannot be read is listed with its error."""
+    parts = components(rootdir)
+    rows = []
+    for watch_id, spec, error in _each_spec(parts["specs"]):
+        if error:
+            rows.append({"id": watch_id, "error": error})
+            continue
         rows.append(
             {
                 "id": watch_id,
@@ -101,10 +141,14 @@ def watches(*, rootdir: str = None) -> dict:
                 "open_actions": sum(
                     a["status"] == "open" for a in spec["pending_actions"]
                 ),
-                "items": len(components(rootdir)["malls"](watch_id)["items"]),
+                "items": len(parts["malls"](watch_id)["items"]),
             }
         )
-    return {"ok": True, "rootdir": str(_rootdir(rootdir)), "watches": rows}
+    return {
+        "ok": not any("error" in row for row in rows),
+        "rootdir": str(_rootdir(rootdir)),
+        "watches": rows,
+    }
 
 
 def watch(watch_id: str, *, rootdir: str = None) -> dict:
@@ -145,12 +189,14 @@ def init_watch(
     if intent:
         spec["intent"] = intent
     notes = []
-    if (spec.get("digest") or {}).get("auto_send"):
-        # a spec from elsewhere must not decide that this machine sends things
-        spec["digest"] = {**spec["digest"], "auto_send": False}
+    digest = spec.get("digest")
+    if isinstance(digest, dict) and (digest.get("auto_send") or digest.get("channels")):
+        # a spec from elsewhere must not decide that this machine sends things, or to whom
         notes.append(
-            "The spec asked for digests to be sent automatically. That was turned off: turn it on with edit-watch if the user wants it."
+            f"The spec named channels for its digests ({', '.join(map(str, digest.get('channels') or [])) or 'none'}) "
+            "and may have asked to send them automatically. Both were removed: set them with edit-watch if the user wants them."
         )
+        spec["digest"] = {**digest, "auto_send": False, "channels": []}
     specs = components(rootdir)["specs"]
     spec = normalize_spec(spec)
     if spec["id"] in specs and not overwrite:
@@ -164,7 +210,12 @@ def init_watch(
 def edit_watch(watch_id: str, patch: str, *, rootdir: str = None) -> dict:
     """Change top-level fields of a watch. `patch` is a JSON object; each key replaces that field (a null removes it). Use it for title, intent, scope, keywords, min_score, digest and enabled."""
     specs, spec = _load(watch_id, rootdir)
-    changes = json.loads(patch) if isinstance(patch, str) else dict(patch)
+    try:
+        changes = json.loads(patch) if isinstance(patch, str) else patch
+    except json.JSONDecodeError as error:
+        raise SpecError(f"The patch is not JSON: {error}.") from None
+    if not isinstance(changes, dict):
+        raise SpecError('The patch must be a JSON object, such as {"min_score": 2}.')
     if "id" in changes and changes["id"] != watch_id:
         raise SpecError(
             "A watch cannot be renamed by a patch: its data is stored under its id."
@@ -315,58 +366,69 @@ def resolve_action(
 
 def pending(*, rootdir: str = None) -> dict:
     """Everything that waits on the human, across all watches."""
-    specs = components(rootdir)["specs"]
-    actions = [
-        {"watch": watch_id, **action}
-        for watch_id in sorted(specs)
-        for action in normalize_spec(specs[watch_id], watch_id=watch_id)[
-            "pending_actions"
+    actions, unreadable = [], []
+    for watch_id, spec, error in _each_spec(components(rootdir)["specs"]):
+        if error:
+            unreadable.append({"watch": watch_id, "error": error})
+            continue
+        actions += [
+            {"watch": watch_id, **a}
+            for a in spec["pending_actions"]
+            if a["status"] == "open"
         ]
-        if action["status"] == "open"
-    ]
-    return {"ok": True, "count": len(actions), "actions": actions}
+    return {
+        "ok": not unreadable,
+        "count": len(actions),
+        "actions": actions,
+        "unreadable": unreadable,
+    }
+
+
+def _source_status(spec, source, record, blocked, now):
+    if not (source["enabled"] and spec["enabled"]):
+        return "disabled"
+    if source["id"] in blocked:
+        return "blocked"
+    return "due" if engine.is_due(record, now=now) else "waiting"
 
 
 def due(*, rootdir: str = None) -> dict:
     """What the next tick would fetch, and when each other source is next due."""
     parts = components(rootdir)
-    specs = parts["specs"]
     now = utcnow()
-    rows = []
-    for watch_id in sorted(specs):
-        spec = normalize_spec(specs[watch_id], watch_id=watch_id)
+    rows, unreadable = [], []
+    for watch_id, spec, error in _each_spec(parts["specs"]):
+        if error:
+            unreadable.append({"watch": watch_id, "error": error})
+            continue
         state = parts["malls"](watch_id)["state"]
         blocked = blocked_source_ids(spec)
         for source in spec["sources"]:
-            record = state.get(f"source--{source['id']}", {})
-            status = (
-                "disabled"
-                if not (source["enabled"] and spec["enabled"])
-                else "blocked"
-                if source["id"] in blocked
-                else "due"
-                if engine.is_due(record, now=now)
-                else "waiting"
-            )
+            record = state.get(engine.state_key(source), {})
             rows.append(
                 {
                     "watch": watch_id,
                     "source": source["id"],
-                    "status": status,
+                    "status": _source_status(spec, source, record, blocked, now),
                     "next_due": record.get("next_due"),
                     "last_run": record.get("last_run"),
                     "failures": record.get("failures", 0),
                     "last_error": record.get("last_error"),
                 }
             )
-    return {"ok": True, "due": sum(r["status"] == "due" for r in rows), "sources": rows}
+    return {
+        "ok": not unreadable,
+        "due": sum(r["status"] == "due" for r in rows),
+        "sources": rows,
+        "unreadable": unreadable,
+    }
 
 
 def tick(*, watch: str = None, force: bool = False, rootdir: str = None) -> dict:
     """Run everything that is due: fetch, match, store, and write the digests that are due. Safe to run as often as you like; this is what the scheduler calls. `watch` limits it to comma-separated watch ids; `force` ignores the schedule."""
     parts = components(rootdir)
     return engine.tick(
-        _csv(watch) or None, specs=parts["specs"], malls=parts["malls"], matcher=parts["matcher"], lock=parts["lock"], force=force,
+        _csv(watch) or None, specs=parts["specs"], malls=parts["malls"], matcher=parts["matcher"], lock=parts["lock"](), force=force,
         on_digest_due=_digest.scheduled_digest(summarizer=parts["summarizer"], senders=parts["senders"]),
     )  # fmt: skip
 
@@ -469,6 +531,8 @@ def schedule(
 ) -> dict:
     """The scheduler entry that runs `keeptabs tick` regularly: a launchd property list (macOS), a cron line, or a systemd timer. It is returned, not installed; `install` says how."""
     import os
+    import shlex
+    from xml.sax.saxutils import escape
 
     kind = kind or ("launchd" if sys.platform == "darwin" else "cron")
     command = [sys.executable, "-m", "keeptabs", "tick"]
@@ -476,32 +540,30 @@ def schedule(
         ROOTDIR_ENV_VAR
     ):  # the scheduler does not inherit this shell's environment
         command += ["--rootdir", os.environ[ROOTDIR_ENV_VAR]]
+    if every_minutes < 1:
+        raise ValueError(
+            f"The interval must be at least one minute, not {every_minutes}."
+        )
     if kind == "cron":
-        if every_minutes < 1 or every_minutes > 60 or 60 % every_minutes:
+        if every_minutes > 60 or 60 % every_minutes:
             raise ValueError(
                 f"cron needs an interval that divides an hour (5, 10, 15, 20, 30, 60), not {every_minutes}."
             )
         minutes = "0" if every_minutes == 60 else f"*/{every_minutes}"
-        text = f"{minutes} * * * * {' '.join(command)} >/dev/null 2>&1"
+        text = f"{minutes} * * * * {shlex.join(command)} >/dev/null 2>&1"
         install = "Add the line with `crontab -e`."
     elif kind == "launchd":
-        arguments = "\n".join(f"        <string>{part}</string>" for part in command)
-        text = f"""<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-    <key>Label</key><string>{LAUNCHD_LABEL}</string>
-    <key>ProgramArguments</key>
-    <array>
-{arguments}
-    </array>
-    <key>StartInterval</key><integer>{every_minutes * 60}</integer>
-    <key>RunAtLoad</key><true/>
-</dict>
-</plist>"""
+        arguments = "\n".join(
+            f"        <string>{escape(part)}</string>" for part in command
+        )
+        text = LAUNCHD_TEMPLATE.format(
+            label=LAUNCHD_LABEL, arguments=arguments, seconds=every_minutes * 60
+        )
         install = f"Save it as ~/Library/LaunchAgents/{LAUNCHD_LABEL}.plist, then run: launchctl load ~/Library/LaunchAgents/{LAUNCHD_LABEL}.plist"
     elif kind == "systemd":
-        text = f"[Unit]\nDescription=keeptabs tick\n\n[Service]\nType=oneshot\nExecStart={' '.join(command)}\n\n# keeptabs.timer\n[Timer]\nOnCalendar=*:0/{every_minutes}\nPersistent=true\n\n[Install]\nWantedBy=timers.target"
+        text = SYSTEMD_TEMPLATE.format(
+            command=shlex.join(command), minutes=every_minutes
+        )
         install = "Split it into ~/.config/systemd/user/keeptabs.service and keeptabs.timer, then run: systemctl --user enable --now keeptabs.timer"
     else:
         raise ValueError(f"Unknown scheduler {kind!r}. Known: launchd, cron, systemd.")

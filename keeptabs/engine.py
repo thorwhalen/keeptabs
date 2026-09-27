@@ -9,6 +9,7 @@ from contextlib import contextmanager, nullcontext
 from datetime import timedelta
 from functools import partial
 
+from keeptabs.digest import scheduled_digest
 from keeptabs.fetchers import DEFAULT_FETCHERS, http_get as default_http_get
 from keeptabs.matching import keyword_matcher
 from keeptabs.spec import blocked_source_ids, normalize_spec
@@ -16,6 +17,7 @@ from keeptabs.stores import spec_store, watch_mall
 from keeptabs.util import (
     app_dir,
     canonical_url,
+    MAX_ID_CHARS,
     is_safe_id,
     isoformat,
     item_id,
@@ -137,9 +139,12 @@ def _store_new_items(raw_items, spec, source, mall, *, matcher, now, run):
             continue
         run["new"] += 1
         match = dict(matcher(raw, spec, mall=mall))
-        match["entities"] = [
-            e if is_safe_id(e) else slug(str(e)) for e in match.get("entities", [])
-        ]
+        # a matcher may name anything: what becomes a store key is made safe first
+        named = (
+            e if is_safe_id(e) else slug(str(e))[:MAX_ID_CHARS]
+            for e in match.get("entities", [])
+        )
+        match["entities"] = list(dict.fromkeys(e for e in named if is_safe_id(e)))
         item = {
             **raw,
             "id": identifier,
@@ -236,7 +241,7 @@ def _run_watch(
         for source in sources
     ]
     digest = None
-    if on_digest_due is not None:
+    if on_digest_due:
         digest_state = mall["state"].get("digest", {})
         if "next_due" not in digest_state:
             # a new watch reports after one full period, on everything acquired since its first run
@@ -268,27 +273,35 @@ def tick(
 
     - ``specs``: the store of watch specifications (default: local files under ``rootdir``).
     - ``malls``: a function from a watch id to that watch's stores (default: local files).
+      Stores of your own come in a pair: give both ``specs`` and ``malls``.
     - ``fetchers``: source kind to fetcher, added to the defaults.
     - ``http_get``: the one door to the network.
     - ``matcher``: ``match(item, spec, *, mall)``, scoring an item against a spec.
-    - ``on_digest_due``: called with ``(spec, mall, now)`` for each watch whose digest is due.
-    - ``lock``: a context manager held for the run (default: a local file lock);
-      ``False`` for none, when your stores do their own locking.
+    - ``on_digest_due``: called with ``(spec, mall, now)`` for each watch whose digest is
+      due (default: :func:`keeptabs.digest.scheduled_digest`); ``False`` for no digest.
+    - ``lock``: a context manager held for the run, or ``False`` for none. The default
+      is a local file lock, and none when the stores are your own.
     - ``force``: run every enabled, unblocked source whatever its schedule.
 
     A watch or a source that fails is reported in ``failures`` and does not stop the rest.
     """
     now = to_datetime(now) if now else utcnow()
+    own_stores = specs is not None or malls is not None
+    if own_stores and (specs is None or malls is None) and rootdir is None:
+        given, missing = ("specs", "malls") if malls is None else ("malls", "specs")
+        raise ValueError(
+            f"{given}= was given without {missing}=, so half of the data would go to the local default. "
+            f"Give both, or say where the local half lives with rootdir=."
+        )
+    if lock is None:
+        lock = False if own_stores and rootdir is None else tick_lock(rootdir)
+    lock = lock or nullcontext()
     specs = spec_store(rootdir) if specs is None else specs
     malls = partial(watch_mall, rootdir=rootdir) if malls is None else malls
     fetchers = {**DEFAULT_FETCHERS, **(fetchers or {})}
     http_get = http_get or default_http_get
     matcher = matcher or keyword_matcher
-    lock = (
-        nullcontext()
-        if lock is False
-        else (tick_lock(rootdir) if lock is None else lock)
-    )
+    on_digest_due = scheduled_digest() if on_digest_due is None else on_digest_due
     runs, digests, failures = [], [], []
     with lock:
         for watch_id in watch_ids or sorted(specs):

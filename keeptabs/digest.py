@@ -23,21 +23,27 @@ SLACK_WEBHOOK_ENV_VAR = "KEEPTABS_SLACK_WEBHOOK_URL"
 SLACK_WEBHOOK_PREFIX = "https://hooks.slack.com/"
 
 _MARKDOWN_SPECIALS = re.compile(r"([\\\[\]`*_|])")
-_HTML_SPECIALS = {"&": "&amp;", "<": "&lt;", ">": "&gt;"}
-_BARE_AMPERSAND = re.compile(r"&(?!(?:amp|lt|gt);)")
 _URL_UNSAFE = str.maketrans(
     {"(": "%28", ")": "%29", " ": "%20", "<": "%3C", ">": "%3E", '"': "%22"}
 )
 
+# As entities, these render as themselves and start nothing: no tag, no mention
+# of a person or a team, no reference to an issue.
+_ENTITIES = {"&": "&amp;", "<": "&lt;", ">": "&gt;", "@": "&#64;", "#": "&#35;"}
+_BARE_AMPERSAND = re.compile(r"&(?!(?:amp|lt|gt|#64|#35);)")
+
 
 def escape_text(text: str) -> str:
-    """Text that renders as itself, in Markdown and in HTML: no link, tag,
-    mention or emphasis of its own.
+    """Text that renders as itself, on one line, in Markdown and in HTML: no link,
+    tag, mention, heading or emphasis of its own.
 
     >>> print(escape_text('Sprout <!channel> [click](https://evil.example) & co'))
     Sprout &lt;!channel&gt; \\[click\\](https://evil.example) &amp; co
+    >>> print(escape_text('ping @someone about #12\\n# A heading'))
+    ping &#64;someone about &#35;12 &#35; A heading
     """
-    text = re.sub(r"[&<>]", lambda m: _HTML_SPECIALS[m.group()], text or "")
+    text = " ".join(str(text or "").split())
+    text = re.sub(r"[&<>@#]", lambda m: _ENTITIES[m.group()], text)
     return _MARKDOWN_SPECIALS.sub(r"\\\1", text)
 
 
@@ -59,16 +65,21 @@ def whats_new(spec: dict, mall: dict, *, since=None, max_items=None, now=None) -
     digest already reported is not reported again.
     """
     now = to_datetime(now) if now else utcnow()
-    last_digest = mall["state"].get("digest", {}).get("last_digest")
-    after_last_digest = since is None and last_digest is not None
+    digest_state = mall["state"].get("digest", {})
+    last_digest = digest_state.get("last_digest")
+    # with no explicit start, what the last digest reported is left out
+    reported = set(digest_state.get("reported_ids", [])) if since is None else set()
     since = to_datetime(since or last_digest or DEFAULT_LOOKBACK, now=now)
 
     def is_fresh(when):
-        when = to_datetime(when)
-        return when > since if after_last_digest else when >= since
+        return to_datetime(when) >= since
 
     max_items = max_items or spec["digest"]["max_items"]
-    fresh = [item for item in mall["items"].values() if is_fresh(item["acquired"])]
+    fresh = [
+        item
+        for item in mall["items"].values()
+        if is_fresh(item["acquired"]) and item.get("id") not in reported
+    ]
     fresh.sort(
         key=lambda item: (item.get("score", 0), _recency_key(item)), reverse=True
     )
@@ -114,6 +125,7 @@ def whats_new(spec: dict, mall: dict, *, since=None, max_items=None, now=None) -
         "since": isoformat(since),
         "until": isoformat(now),
         "total_new": len(fresh),
+        "item_ids": [item.get("id") for item in fresh],
         "shown": len(shown),
         "sections": [
             {"id": s, "title": titles.get(s, "Other"), "items": sections[s]}
@@ -270,6 +282,19 @@ def deliver(text: str, channels, *, title: str, dry_run=True, senders=None) -> l
     return results
 
 
+def _all_delivered(deliveries) -> bool:
+    return all(delivery["ok"] for delivery in deliveries)
+
+
+def _schedule_next(spec, mall, now, **changes):
+    period = parse_duration(spec["digest"]["cadence"])
+    mall["state"]["digest"] = {
+        **mall["state"].get("digest", {}),
+        **changes,
+        "next_due": isoformat(now + timedelta(seconds=period)),
+    }
+
+
 def make_digest(
     spec,
     mall,
@@ -285,7 +310,8 @@ def make_digest(
 
     ``mark_reported`` says whether the items count as reported from now on, so the
     next digest leaves them out. It defaults to ``send``: a dry run changes nothing,
-    and can be followed by the real send of the same digest.
+    and can be followed by the real send of the same digest. Items are never marked
+    when a delivery failed, so a digest that did not arrive is sent again.
     """
     mark_reported = send if mark_reported is None else mark_reported
     now = to_datetime(now) if now else utcnow()
@@ -295,52 +321,62 @@ def make_digest(
     deliveries = deliver(
         text, spec["digest"]["channels"], title=title, dry_run=not send, senders=senders
     )
-    key = timestamp_key(now) + ("" if mark_reported else "--dry-run")
+    reported = bool(mark_reported and (not send or _all_delivered(deliveries)))
+    key = timestamp_key(now) + ("" if reported else "--not-reported")
     record = {
         "watch": spec["id"],
         "at": isoformat(now),
         "title": title,
         "text": text,
         "deliveries": deliveries,
+        "sent": bool(send and _all_delivered(deliveries)),
+        "reported": reported,
         "since": data["since"],
         "total_new": data["total_new"],
-        "item_ids": [
-            item["id"] for section in data["sections"] for item in section["items"]
-        ],
+        "item_ids": data["item_ids"],
     }
-    record["reported"] = mark_reported
     mall["digests"][key] = record
-    if mark_reported:
-        period = parse_duration(spec["digest"]["cadence"])
-        mall["state"]["digest"] = {
-            "last_digest": isoformat(now),
-            "next_due": isoformat(now + timedelta(seconds=period)),
-        }
+    if reported:
+        _schedule_next(
+            spec, mall, now, last_digest=isoformat(now), reported_ids=data["item_ids"]
+        )
     return {"key": key, **record}
 
 
 def scheduled_digest(*, summarizer=None, senders=None):
     """The ``on_digest_due`` callback for :func:`keeptabs.engine.tick`.
 
-    It sends for real only when the spec says ``digest.auto_send: true``, and it
-    skips a period with nothing new.
+    A period with nothing new is skipped. Otherwise the digest is written to the
+    ``digests`` store, and:
+
+    - with ``digest.auto_send: true``, it is sent, and its items count as reported
+      once every channel took it;
+    - with channels but no ``auto_send``, nothing is sent and nothing is marked:
+      the items wait for the owner's ``digest --send``;
+    - with no channel at all, the stored digest is the report.
     """
 
     def on_digest_due(spec, mall, now):
         if not whats_new(spec, mall, now=now)["total_new"]:
-            period = parse_duration(spec["digest"]["cadence"])
-            previous = mall["state"].get("digest", {})
-            mall["state"]["digest"] = {
-                **previous,
-                "next_due": isoformat(now + timedelta(seconds=period)),
-            }
+            _schedule_next(spec, mall, now)
             return {"watch": spec["id"], "skipped": "nothing new"}
+        auto_send = spec["digest"]["auto_send"]
         digest = make_digest(
             spec, mall, now=now, summarizer=summarizer, senders=senders,
-            send=spec["digest"]["auto_send"], mark_reported=True,
+            send=auto_send, mark_reported=auto_send or not spec["digest"]["channels"],
         )  # fmt: skip
+        _schedule_next(spec, mall, now)
         return {
-            k: digest[k] for k in ("watch", "key", "title", "total_new", "deliveries")
+            k: digest[k]
+            for k in (
+                "watch",
+                "key",
+                "title",
+                "total_new",
+                "sent",
+                "reported",
+                "deliveries",
+            )
         }
 
     return on_digest_due

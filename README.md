@@ -18,15 +18,22 @@ keeptabs whats-new gen-ai --as-text
 
 The first command creates a watch from a shipped example. The second fetches every source that is due, keeps what matches, and stores it. The third prints what is new, grouped by subtopic, with links.
 
-In Python:
+In Python, by watch id:
 
 ```python
-from keeptabs import tick, whats_new, watch_mall, spec_store, normalize_spec
+from keeptabs import tools
 
-tick()
-spec = normalize_spec(spec_store()["gen-ai"])
+tools.tick()
+news = tools.whats_new("gen-ai", since="3d")
+```
+
+Or with the stores in hand:
+
+```python
+from keeptabs import watch_mall
+
 mall = watch_mall("gen-ai")  # stores: items, dropped, entities, runs, digests, state
-news = whats_new(spec, mall, since="3d")
+recent = [item for item in mall["items"].values() if item["score"] >= 3]
 ```
 
 ## How it works
@@ -104,7 +111,7 @@ digest:
   auto_send: false
 ```
 
-`keeptabs digest <watch>` is a dry run: it shows the digest and what would be sent where, and changes nothing. `keeptabs digest <watch> --send` sends that same digest, and from then on its items count as reported. The scheduled run writes the digest to the local store, and sends it only when `auto_send` is true. Email and GitHub go through `correspond`, so they pass its outbound checks.
+`keeptabs digest <watch>` is a dry run: it shows the digest and what would be sent where, and changes nothing. `keeptabs digest <watch> --send` sends that same digest, and from then on its items count as reported. The scheduled run writes the digest to the local store, and sends it only when `auto_send` is true. With channels and no `auto_send`, the items wait for your `--send`. Items count as reported only once every channel took the digest, so one that did not arrive is sent again. Email and GitHub go through `correspond`, so they pass its outbound checks.
 
 What the items say was written by other people. Titles and summaries are escaped in a digest, and every link is built from a stored item's URL.
 
@@ -157,10 +164,10 @@ def matcher(item, spec, *, mall):
     }
 ```
 
-To keep everything in stores of your own:
+To keep everything in stores of your own, give both, and the run takes no local lock:
 
 ```python
-tick(specs=my_specs, malls=lambda watch_id: my_stores_for(watch_id), lock=False)
+tick(specs=my_specs, malls=lambda watch_id: my_stores_for(watch_id))
 ```
 
 The command line and the shipped skills run with what `keeptabs.tools.components` returns, which is the one place to change for another surface.

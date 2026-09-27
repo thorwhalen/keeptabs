@@ -49,7 +49,8 @@ The CLI is built. MCP and HTTP are not: `tools.py` returns JSON-ready dicts and 
 - **Nothing personal in the repository.** Real watch specs and acquired data live under the data directory. Tests use `tests/data/` fixtures with invented names on `example.org`.
 - **Items before state.** `fetch_source` writes the item, then the cursor, so a crash repeats work and never loses it.
 - **Nothing leaves the machine by default.** `deliver` is a dry run unless told otherwise, the scheduled digest sends only with `digest.auto_send`, and an imported spec cannot turn that on.
-- **Fetched text is hostile.** Ids are checked before they become file names, and `escape_text` is applied to everything a digest prints. `tests/test_hardening.py` holds one test per finding of the first independent review.
+- **Fetched text is hostile.** Ids are checked before they become file names (`is_safe_id`: lowercase, at most 100 characters), and `escape_text` is applied to everything a digest prints. `tests/test_hardening.py` holds one test per finding of the two independent reviews.
+- **Stores of your own come in a pair.** `tick(specs=..., malls=...)` takes no local lock and writes nothing locally.
 - **A broken source never stops a tick.** Failures are recorded in state and reported in the digest.
 
 ## References

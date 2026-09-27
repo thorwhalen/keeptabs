@@ -141,26 +141,40 @@ def item_id(key: str) -> str:
     return hashlib.sha256(key.encode("utf-8")).hexdigest()[:16]
 
 
-_SAFE_ID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.-]*$")
+MAX_ID_CHARS = 100
+_SAFE_ID_RE = re.compile(r"^[a-z0-9][a-z0-9_.-]*$")
+# Names that Windows keeps for devices, whatever the extension.
+_RESERVED_NAMES = frozenset(
+    ["con", "prn", "aux", "nul"]
+    + [f"{name}{n}" for name in ("com", "lpt") for n in range(1, 10)]
+)
 
 
 def is_safe_id(identifier) -> bool:
     """Whether an identifier can be used as a store key (it becomes a file name).
 
-    >>> is_safe_id('llama.cpp'), is_safe_id('../../etc'), is_safe_id('a/b'), is_safe_id('')
-    (True, False, False, False)
+    Lowercase only, because some file systems do not tell ``Feed`` from ``feed``.
+
+    >>> [is_safe_id(i) for i in ('llama.cpp', 'gen-ai', '../../etc', 'a/b', '', 'Feed', 'con', 'abc.', 'x' * 101)]
+    [True, True, False, False, False, False, False, False, False]
     """
     identifier = str(identifier)
-    return bool(_SAFE_ID_RE.match(identifier)) and ".." not in identifier
+    return (
+        bool(_SAFE_ID_RE.match(identifier))
+        and len(identifier) <= MAX_ID_CHARS
+        and ".." not in identifier
+        and not identifier.endswith(".")
+        and identifier.split(".")[0] not in _RESERVED_NAMES
+    )
 
 
 def timestamp_key(when) -> str:
     """A sortable store key for a moment, in UTC.
 
     >>> timestamp_key('2026-01-02T03:04:05+01:00')
-    '20260102T020405Z'
+    '20260102t020405z'
     """
-    return to_datetime(when).strftime("%Y%m%dT%H%M%SZ")
+    return to_datetime(when).strftime("%Y%m%dt%H%M%Sz")
 
 
 def slug(text: str) -> str:

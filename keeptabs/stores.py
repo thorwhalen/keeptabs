@@ -14,9 +14,9 @@ import json
 from collections.abc import MutableMapping
 
 import yaml
-from dol import Files, KeyCodecs, wrap_kvs
+from dol import Files, KeyCodecs, filt_iter, wrap_kvs
 
-from keeptabs.util import app_dir
+from keeptabs.util import app_dir, is_safe_id
 
 #: items: what was kept. dropped: what was seen and judged irrelevant, so it is not
 #: judged again. entities: what is known about each tracked thing. runs: what each
@@ -36,26 +36,39 @@ def _json_dumps(obj) -> bytes:
     return json.dumps(obj, ensure_ascii=False, indent=1).encode(ENCODING)
 
 
+def _file_store(directory, suffix, *, loads, dumps) -> MutableMapping:
+    """The files ``<safe id><suffix>`` of one directory, keyed by the id.
+
+    Anything else in the directory (a backup, a note, a subfolder) is not a record.
+    """
+    files = Files(str(directory), max_levels=0)
+
+    def is_record(key):
+        return key.endswith(suffix) and is_safe_id(key[: -len(suffix)])
+
+    records = wrap_kvs(
+        filt_iter(files, filt=is_record),
+        obj_of_data=lambda data: loads(data.decode(ENCODING)),
+        data_of_obj=dumps,
+    )
+    return KeyCodecs.suffixed(suffix)(records)
+
+
 def spec_store(rootdir=None) -> MutableMapping:
     """Watch specifications, keyed by watch id, stored as YAML files."""
-    files = Files(str(app_dir("specs", rootdir=rootdir)))
-    as_yaml = wrap_kvs(
-        files,
-        obj_of_data=lambda data: yaml.safe_load(data.decode(ENCODING)),
-        data_of_obj=_yaml_dumps,
+    return _file_store(
+        app_dir("specs", rootdir=rootdir),
+        ".yaml",
+        loads=yaml.safe_load,
+        dumps=_yaml_dumps,
     )
-    return KeyCodecs.suffixed(".yaml")(as_yaml)
 
 
 def json_store(*parts, rootdir=None) -> MutableMapping:
     """A store of JSON records, keyed without the file extension."""
-    files = Files(str(app_dir(*parts, rootdir=rootdir)))
-    as_json = wrap_kvs(
-        files,
-        obj_of_data=lambda data: json.loads(data.decode(ENCODING)),
-        data_of_obj=_json_dumps,
+    return _file_store(
+        app_dir(*parts, rootdir=rootdir), ".json", loads=json.loads, dumps=_json_dumps
     )
-    return KeyCodecs.suffixed(".json")(as_json)
 
 
 def watch_mall(watch_id: str, *, rootdir=None) -> dict:
@@ -69,6 +82,8 @@ def watch_mall(watch_id: str, *, rootdir=None) -> dict:
     >>> mall['items']['abc'], list(mall['items'])
     ({'title': 'Ça marche'}, ['abc'])
     """
+    if not is_safe_id(watch_id):
+        raise KeyError(f"Not a watch id: {str(watch_id)[:80]!r}.")
     return {
         kind: json_store("data", watch_id, kind, rootdir=rootdir)
         for kind in STORE_KINDS
