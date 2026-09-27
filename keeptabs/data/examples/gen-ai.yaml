@@ -1,0 +1,65 @@
+# A small example watch: generative AI. Copy it with: keeptabs init-watch "Gen AI" --example gen-ai
+id: gen-ai
+title: Generative AI
+intent: Keep up with new generative models and the tools built around them.
+scope: >-
+  Releases of open and hosted generative models (text, image, video, audio), the
+  libraries used to run them, and notable papers. Not funding news, not opinion.
+min_score: 1.0
+keywords:
+  - generative AI
+  - foundation model
+  - diffusion model
+exclude_keywords:
+  - sponsored
+subtopics:
+  - id: language-models
+    title: Language models
+    priority: high
+    keywords: [LLM, large language model, language model, tokenizer, context window]
+  - id: image-and-video
+    title: Image and video generation
+    priority: medium
+    keywords: [text-to-image, text-to-video, image generation, video generation]
+  - id: tooling
+    title: Tooling and inference
+    priority: medium
+    keywords: [inference, quantization, fine-tuning, LoRA, agent framework]
+entities:
+  - name: Transformers
+    kind: library
+    url: https://github.com/huggingface/transformers
+    aliases: [huggingface/transformers]
+  - name: Diffusers
+    kind: library
+    url: https://github.com/huggingface/diffusers
+    aliases: [huggingface/diffusers]
+  - name: llama.cpp
+    kind: library
+    url: https://github.com/ggml-org/llama.cpp
+sources:
+  - kind: arxiv
+    id: arxiv-generative
+    title: arXiv, generative models
+    query: 'cat:cs.LG AND all:"generative model"'
+    cadence: 1d
+    max_items: 25
+  - kind: github_releases
+    id: releases-transformers
+    repo: huggingface/transformers
+    cadence: 1d
+    keep_all: true
+  - kind: github_releases
+    id: releases-diffusers
+    repo: huggingface/diffusers
+    cadence: 1d
+    keep_all: true
+  - kind: hackernews
+    id: hn-generative-ai
+    query: generative AI
+    cadence: 12h
+    max_items: 30
+digest:
+  cadence: 1w
+  channels: []
+  auto_send: false

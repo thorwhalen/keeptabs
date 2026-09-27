@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Example Lab blog</title>
+  <id>https://blog.example.org/</id>
+  <updated>2026-01-05T00:00:00Z</updated>
+  <entry>
+    <title>Introducing Sprout, a small language model</title>
+    <link href="https://blog.example.org/sprout?utm_source=feed"/>
+    <id>https://blog.example.org/sprout</id>
+    <updated>2026-01-05T00:00:00Z</updated>
+    <summary>Sprout is an LLM that runs on a laptop, with quantization built in.</summary>
+  </entry>
+  <entry>
+    <title>A text-to-video model that keeps characters consistent</title>
+    <link href="https://blog.example.org/video"/>
+    <id>https://blog.example.org/video</id>
+    <updated>2026-01-04T00:00:00Z</updated>
+    <summary>Video generation with a diffusion model.</summary>
+  </entry>
+  <entry>
+    <title>Our office has a new coffee machine</title>
+    <link href="https://blog.example.org/coffee"/>
+    <id>https://blog.example.org/coffee</id>
+    <updated>2026-01-03T00:00:00Z</updated>
+    <summary>It makes espresso.</summary>
+  </entry>
+</feed>
