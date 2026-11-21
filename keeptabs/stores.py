@@ -48,8 +48,8 @@ def _file_store(directory, suffix, *, loads, dumps) -> MutableMapping:
 
     records = wrap_kvs(
         filt_iter(files, filt=is_record),
-        obj_of_data=lambda data: loads(data.decode(ENCODING)),
-        data_of_obj=dumps,
+        value_decoder=lambda data: loads(data.decode(ENCODING)),
+        value_encoder=dumps,
     )
     return KeyCodecs.suffixed(suffix)(records)
 
