@@ -17,7 +17,7 @@
 - [keeptabs.stores](_autosummary/keeptabs.stores.html.md): Where specs and acquired data live, behind &#96;MutableMapping&#96; interfaces.
 - [keeptabs.util](_autosummary/keeptabs.util.html.md): Small pure helpers: app directories, durations, timestamps, URL canonicalisation.
 - [For AI agents](ai-agents.html.md): &#96;keeptabs&#96; ships artifacts for coding agents alongside its code. This page lists
-- [About this build](about-this-build.html.md): This documentation was built on &#42;&#42;2026-09-27 09:00 UTC&#42;&#42; from commit &lt;a href="https://github.com/tho...
+- [About this build](about-this-build.html.md): This documentation was built on &#42;&#42;2026-11-21 18:08 UTC&#42;&#42; from commit &lt;a href="https://github.com/tho...
 
 ## Optional
 

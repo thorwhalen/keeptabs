@@ -48,13 +48,13 @@ A store of JSON records, keyed without the file extension.
 
 The stores of one watch, in memory: for tests and throwaway runs.
 
-* **Return type:**
-  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
-
 ```pycon
 >>> sorted(memory_mall()) == sorted(STORE_KINDS)
 True
 ```
+
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
 
 ### keeptabs.stores.spec_store(rootdir=None)
 
@@ -67,9 +67,6 @@ Watch specifications, keyed by watch id, stored as YAML files.
 
 The stores of one watch.
 
-* **Return type:**
-  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
-
 ```pycon
 >>> import tempfile
 >>> mall = watch_mall('demo', rootdir=tempfile.mkdtemp())
@@ -79,3 +76,6 @@ The stores of one watch.
 >>> mall['items']['abc'], list(mall['items'])
 ({'title': 'Ça marche'}, ['abc'])
 ```
+
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)

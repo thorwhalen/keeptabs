@@ -1,4 +1,4 @@
-> built 2026-09-27 09:00 UTC from ce2ec5e (main) · keeptabs 0.0.1. Details: build_info.json
+> built 2026-11-21 18:08 UTC from 04fe7d5 (main) · keeptabs 0.0.1. Details: build_info.json
 
 # index.html.md
 
@@ -227,15 +227,15 @@ failing channel does not stop the others.
 Text that renders as itself, on one line, in Markdown and in HTML: no link,
 tag, mention, heading or emphasis of its own.
 
-* **Return type:**
-  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
-
 ```pycon
 >>> print(escape_text('Sprout <!channel> [click](https://evil.example) & co'))
 Sprout &lt;!channel&gt; \[click\](https://evil.example) &amp; co
 >>> print(escape_text('ping @someone about #12\n# A heading'))
 ping &#64;someone about &#35;12 &#35; A heading
 ```
+
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
 
 ### keeptabs.digest.make_digest(spec, mall, , since=None, now=None, summarizer=None, send=False, senders=None, mark_reported=None)
 
@@ -253,9 +253,6 @@ when a delivery failed, so a digest that did not arrive is sent again.
 
 A digest as Markdown, with no model involved.
 
-* **Return type:**
-  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
-
 ```pycon
 >>> print(render_markdown({'title': 'Gen AI', 'since': '2026-01-01T00:00:00+00:00',
 ...     'until': '2026-01-08T00:00:00+00:00', 'total_new': 1, 'shown': 1, 'sections': [
@@ -270,6 +267,9 @@ A digest as Markdown, with no model involved.
 
 - [A model](https://example.com/a) (blog, 2026-01-05). It generates.
 ```
+
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
 
 ### keeptabs.digest.scheduled_digest(, summarizer=None, senders=None)
 
@@ -349,14 +349,14 @@ backs off, and the caller carries on.
 
 Whether a source (or a digest) with this stored state should run now.
 
-* **Return type:**
-  [`bool`](https://docs.python.org/3/builtins/functions.html#bool)
-
 ```pycon
 >>> now = to_datetime('2026-01-02')
 >>> is_due({}, now=now), is_due({'next_due': '2026-01-03T00:00:00+00:00'}, now=now)
 (True, False)
 ```
+
+* **Return type:**
+  [`bool`](https://docs.python.org/3/builtins/functions.html#bool)
 
 ### keeptabs.engine.runnable_sources(spec)
 
@@ -439,7 +439,7 @@ escaped again where it is rendered ([`keeptabs.digest`](_autosummary/keeptabs.di
 | [`Response`](_autosummary/keeptabs.fetchers.html.md#keeptabs.fetchers.Response)(status[, body, headers])   | What a fetcher needs from an HTTP exchange.   |
 |--------------------------------------------------------------------------------------|-----------------------------------------------|
 
-### *class* keeptabs.fetchers.Response(status, body=b'', headers=<factory>)
+### *class* keeptabs.fetchers.Response(status, body=b'', headers=dict())
 
 Bases: [`object`](https://docs.python.org/3/builtins/functions.html#object)
 
@@ -449,13 +449,13 @@ What a fetcher needs from an HTTP exchange.
 
 The distinct http(s) links in a text, in order of appearance.
 
-* **Return type:**
-  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)
-
 ```pycon
 >>> extract_links('see https://a.example/x, and <a href="https://b.example">b</a>')
 ['https://a.example/x', 'https://b.example']
 ```
+
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)
 
 ### keeptabs.fetchers.fetch_arxiv(source, \*, state, http_get=<function http_get>)
 
@@ -498,15 +498,15 @@ Readable text from an HTML fragment, with no tag left in it.
 Entities are decoded before tags are removed, so an escaped tag does not
 come back to life.
 
-* **Return type:**
-  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
-
 ```pycon
 >>> strip_html('<p>Hello&nbsp;<b>world</b></p>')
 'Hello world'
 >>> strip_html('safe &lt;script&gt;alert(1)&lt;/script&gt; text')
 'safe alert(1) text'
 ```
+
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
 
 
 # _autosummary/keeptabs.html.md
@@ -566,7 +566,7 @@ Bases: [`RuntimeError`](https://docs.python.org/3/builtins/exceptions.html#Runti
 
 Another tick holds the lock.
 
-### *class* keeptabs.Response(status, body=b'', headers=<factory>)
+### *class* keeptabs.Response(status, body=b'', headers=dict())
 
 Bases: [`object`](https://docs.python.org/3/builtins/functions.html#object)
 
@@ -594,15 +594,15 @@ failing channel does not stop the others.
 Text that renders as itself, on one line, in Markdown and in HTML: no link,
 tag, mention, heading or emphasis of its own.
 
-* **Return type:**
-  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
-
 ```pycon
 >>> print(escape_text('Sprout <!channel> [click](https://evil.example) & co'))
 Sprout &lt;!channel&gt; \[click\](https://evil.example) &amp; co
 >>> print(escape_text('ping @someone about #12\n# A heading'))
 ping &#64;someone about &#35;12 &#35; A heading
 ```
+
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
 
 ### keeptabs.http_get(url, , etag=None, last_modified=None, timeout=30)
 
@@ -615,9 +615,6 @@ GET a URL politely: identified, and conditional when validators are known.
 
 Score an item against a spec’s keywords, subtopics and entities.
 
-* **Return type:**
-  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
-
 ```pycon
 >>> spec = {'keywords': ['diffusion'], 'exclude_keywords': ['crypto'],
 ...     'subtopics': [{'id': 'video', 'priority': 'high', 'keywords': ['text-to-video']}],
@@ -628,6 +625,9 @@ Score an item against a spec’s keywords, subtopics and entities.
 >>> keyword_matcher({'title': 'Diffusion of crypto', 'summary': ''}, spec)['score']
 0.0
 ```
+
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
 
 ### keeptabs.make_digest(spec, mall, , since=None, now=None, summarizer=None, send=False, senders=None, mark_reported=None)
 
@@ -645,22 +645,19 @@ when a delivery failed, so a digest that did not arrive is sent again.
 
 The stores of one watch, in memory: for tests and throwaway runs.
 
-* **Return type:**
-  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
-
 ```pycon
 >>> sorted(memory_mall()) == sorted(STORE_KINDS)
 True
 ```
+
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
 
 ### keeptabs.normalize_spec(spec, , watch_id=None)
 
 A complete, checked copy of a watch specification.
 
 Only `id` (or `title`) is required: a spec starts as a vague idea.
-
-* **Return type:**
-  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
 
 ```pycon
 >>> spec = normalize_spec({'title': 'Gen AI', 'keywords': ['diffusion'], 'entities': ['Sora']})
@@ -670,12 +667,12 @@ Only `id` (or `title`) is required: a spec starts as a vague idea.
 [{'name': 'Sora', 'id': 'sora', 'kind': 'thing', 'aliases': []}]
 ```
 
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
+
 ### keeptabs.render_markdown(digest)
 
 A digest as Markdown, with no model involved.
-
-* **Return type:**
-  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
 
 ```pycon
 >>> print(render_markdown({'title': 'Gen AI', 'since': '2026-01-01T00:00:00+00:00',
@@ -691,6 +688,9 @@ A digest as Markdown, with no model involved.
 
 - [A model](https://example.com/a) (blog, 2026-01-05). It generates.
 ```
+
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
 
 ### keeptabs.scheduled_digest(, summarizer=None, senders=None)
 
@@ -737,9 +737,6 @@ A watch or a source that fails is reported in `failures` and does not stop the r
 
 The stores of one watch.
 
-* **Return type:**
-  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
-
 ```pycon
 >>> import tempfile
 >>> mall = watch_mall('demo', rootdir=tempfile.mkdtemp())
@@ -749,6 +746,9 @@ The stores of one watch.
 >>> mall['items']['abc'], list(mall['items'])
 ({'title': 'Ça marche'}, ['abc'])
 ```
+
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
 
 ### keeptabs.whats_new(spec, mall, , since=None, max_items=None, now=None)
 
@@ -799,9 +799,6 @@ the spec’s keywords and entity names, weighted by where they occur.
 
 Score an item against a spec’s keywords, subtopics and entities.
 
-* **Return type:**
-  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
-
 ```pycon
 >>> spec = {'keywords': ['diffusion'], 'exclude_keywords': ['crypto'],
 ...     'subtopics': [{'id': 'video', 'priority': 'high', 'keywords': ['text-to-video']}],
@@ -812,6 +809,9 @@ Score an item against a spec’s keywords, subtopics and entities.
 >>> keyword_matcher({'title': 'Diffusion of crypto', 'summary': ''}, spec)['score']
 0.0
 ```
+
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
 
 
 # _autosummary/keeptabs.spec.html.md
@@ -849,20 +849,17 @@ A watch specification that cannot be used, with the reason and the fix.
 
 A yes or no, from a boolean or from the words for one.
 
-* **Return type:**
-  [`bool`](https://docs.python.org/3/builtins/functions.html#bool)
-
 ```pycon
 >>> as_bool('false', what='enabled'), as_bool(True, what='enabled')
 (False, True)
 ```
 
+* **Return type:**
+  [`bool`](https://docs.python.org/3/builtins/functions.html#bool)
+
 ### keeptabs.spec.blocked_source_ids(spec)
 
 Sources that wait on a human action that is still open.
-
-* **Return type:**
-  [`set`](https://docs.python.org/3/builtins/stdtypes.html#set)
 
 ```pycon
 >>> spec = normalize_spec({'id': 'w', 'sources': [{'kind': 'email', 'sender': 'a@b.c', 'id': 'nl'}],
@@ -871,12 +868,12 @@ Sources that wait on a human action that is still open.
 {'nl'}
 ```
 
+* **Return type:**
+  [`set`](https://docs.python.org/3/builtins/stdtypes.html#set)
+
 ### keeptabs.spec.normalize_source(source)
 
 One source with defaults filled in and its fields checked.
-
-* **Return type:**
-  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
 
 ```pycon
 >>> s = normalize_source({'kind': 'feed', 'url': 'https://example.com/feed.xml'})
@@ -891,14 +888,14 @@ A kind with no fetcher of its own is accepted, and says what to fetch in `target
 'robots'
 ```
 
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
+
 ### keeptabs.spec.normalize_spec(spec, , watch_id=None)
 
 A complete, checked copy of a watch specification.
 
 Only `id` (or `title`) is required: a spec starts as a vague idea.
-
-* **Return type:**
-  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
 
 ```pycon
 >>> spec = normalize_spec({'title': 'Gen AI', 'keywords': ['diffusion'], 'entities': ['Sora']})
@@ -908,14 +905,14 @@ Only `id` (or `title`) is required: a spec starts as a vague idea.
 [{'name': 'Sora', 'id': 'sora', 'kind': 'thing', 'aliases': []}]
 ```
 
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
+
 ### keeptabs.spec.str_list(value, , what='value')
 
 A list of strings from what a hand-written spec may hold.
 
 A bare string is one term, not a list of characters.
-
-* **Return type:**
-  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)
 
 ```pycon
 >>> str_list('diffusion'), str_list(['LLM', 2026]), str_list(None)
@@ -932,17 +929,20 @@ Traceback (most recent call last):
 keeptabs.spec.SpecError: keywords holds False, which is not text. Put the term in quotes, as in "no" or "3.10".
 ```
 
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)
+
 ### keeptabs.spec.target_field(kind)
 
 The field of a source that says what to fetch.
-
-* **Return type:**
-  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
 
 ```pycon
 >>> target_field('feed'), target_field('github_releases'), target_field('my_own_kind')
 ('url', 'repo', 'target')
 ```
+
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
 
 
 # _autosummary/keeptabs.stores.html.md
@@ -997,13 +997,13 @@ A store of JSON records, keyed without the file extension.
 
 The stores of one watch, in memory: for tests and throwaway runs.
 
-* **Return type:**
-  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
-
 ```pycon
 >>> sorted(memory_mall()) == sorted(STORE_KINDS)
 True
 ```
+
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
 
 ### keeptabs.stores.spec_store(rootdir=None)
 
@@ -1016,9 +1016,6 @@ Watch specifications, keyed by watch id, stored as YAML files.
 
 The stores of one watch.
 
-* **Return type:**
-  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
-
 ```pycon
 >>> import tempfile
 >>> mall = watch_mall('demo', rootdir=tempfile.mkdtemp())
@@ -1028,6 +1025,9 @@ The stores of one watch.
 >>> mall['items']['abc'], list(mall['items'])
 ({'title': 'Ça marche'}, ['abc'])
 ```
+
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
 
 
 # _autosummary/keeptabs.tools.html.md
@@ -1253,13 +1253,13 @@ The same document should have the same URL, however it was linked.
 Lower-cases the scheme and host, drops the fragment, a trailing slash,
 default ports and click-tracking parameters, and sorts what is left.
 
-* **Return type:**
-  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
-
 ```pycon
 >>> canonical_url('HTTPS://Example.com:443/a/?utm_source=x&b=2&a=1#top')
 'https://example.com/a?a=1&b=2'
 ```
+
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
 
 ### keeptabs.util.is_safe_id(identifier)
 
@@ -1267,13 +1267,13 @@ Whether an identifier can be used as a store key (it becomes a file name).
 
 Lowercase only, because some file systems do not tell `Feed` from `feed`.
 
-* **Return type:**
-  [`bool`](https://docs.python.org/3/builtins/functions.html#bool)
-
 ```pycon
 >>> [is_safe_id(i) for i in ('llama.cpp', 'gen-ai', '../../etc', 'a/b', '', 'Feed', 'con', 'abc.', 'x' * 101)]
 [True, True, False, False, False, False, False, False, False]
 ```
+
+* **Return type:**
+  [`bool`](https://docs.python.org/3/builtins/functions.html#bool)
 
 ### keeptabs.util.isoformat(when)
 
@@ -1286,20 +1286,17 @@ The ISO 8601 form used in every stored record.
 
 A short, filesystem-safe, stable identifier for an item key.
 
-* **Return type:**
-  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
-
 ```pycon
 >>> item_id('https://example.com/a')
 '2dce0a4c50441bfc'
 ```
 
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
+
 ### keeptabs.util.parse_duration(duration)
 
 Seconds in a duration such as `'30m'`, `'6h'`, `'1d'` or `'2w'`.
-
-* **Return type:**
-  [`float`](https://docs.python.org/3/builtins/functions.html#float)
 
 ```pycon
 >>> parse_duration('6h')
@@ -1308,6 +1305,9 @@ Seconds in a duration such as `'30m'`, `'6h'`, `'1d'` or `'2w'`.
 90.0
 ```
 
+* **Return type:**
+  [`float`](https://docs.python.org/3/builtins/functions.html#float)
+
 ### keeptabs.util.rootdir(rootdir=None)
 
 The directory that holds every spec and every watch’s data.
@@ -1315,44 +1315,41 @@ The directory that holds every spec and every watch’s data.
 Resolution order: the argument, the `KEEPTABS_ROOTDIR` environment variable,
 `$XDG_DATA_HOME/keeptabs`, then `~/.local/share/keeptabs`.
 
-* **Return type:**
-  [`Path`](https://docs.python.org/3/library/pathlib.html#pathlib.Path)
-
 ```pycon
 >>> rootdir('/tmp/somewhere').name
 'somewhere'
 ```
 
+* **Return type:**
+  [`Path`](https://docs.python.org/3/library/pathlib.html#pathlib.Path)
+
 ### keeptabs.util.slug(text)
 
 A kebab-case identifier.
-
-* **Return type:**
-  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
 
 ```pycon
 >>> slug('Music AI (real-time)')
 'music-ai-real-time'
 ```
 
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
+
 ### keeptabs.util.timestamp_key(when)
 
 A sortable store key for a moment, in UTC.
-
-* **Return type:**
-  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
 
 ```pycon
 >>> timestamp_key('2026-01-02T03:04:05+01:00')
 '20260102t020405z'
 ```
 
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
+
 ### keeptabs.util.to_datetime(when, , now=None)
 
 A timezone-aware datetime from a datetime, an ISO string, or a duration ago.
-
-* **Return type:**
-  [`datetime`](https://docs.python.org/3/library/datetime.html#datetime.datetime)
 
 ```pycon
 >>> to_datetime('2026-01-02T03:04:05+00:00').isoformat()
@@ -1361,6 +1358,9 @@ A timezone-aware datetime from a datetime, an ISO string, or a duration ago.
 >>> to_datetime('7d', now=base).isoformat()
 '2026-01-01T00:00:00+00:00'
 ```
+
+* **Return type:**
+  [`datetime`](https://docs.python.org/3/library/datetime.html#datetime.datetime)
 
 ### keeptabs.util.utcnow()
 
@@ -1376,16 +1376,18 @@ The current time, timezone-aware, in UTC.
 
 # About this build
 
-This documentation was built on **2026-09-27 09:00 UTC** from commit <a href="https://github.com/thorwhalen/keeptabs/commit/ce2ec5e95d6af3deb1673b47b2f0bf32ebb57233"><code>ce2ec5e</code></a> on branch <code>main</code>, for **keeptabs 0.0.1** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-11-21 18:08 UTC** from commit <a href="https://github.com/thorwhalen/keeptabs/commit/04fe7d59f77649226a3ceef4a2f38915c661523a"><code>04fe7d5</code></a> on branch <code>main</code>, for **keeptabs 0.0.1** (from <code>pyproject.toml</code>).
 
-#### NOTE
-Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
+#### WARNING
+The documentation and the package may be misaligned:
+
+- The documented version (0.0.1) is behind the latest release on PyPI (0.0.2): `pip install keeptabs` gives newer code than these docs describe.
 
 ## Source
 
 |                     |                                                                                                                                                            |
 |---------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/thorwhalen/keeptabs/commit/ce2ec5e95d6af3deb1673b47b2f0bf32ebb57233"><code>ce2ec5e95d6af3deb1673b47b2f0bf32ebb57233</code></a> |
+| Commit              | <a href="https://github.com/thorwhalen/keeptabs/commit/04fe7d59f77649226a3ceef4a2f38915c661523a"><code>04fe7d59f77649226a3ceef4a2f38915c661523a</code></a> |
 | Branch              | <code>main</code>                                                                                                                                          |
 | Tags at this commit | none                                                                                                                                                       |
 | Working tree        | clean                                                                                                                                                      |
@@ -1396,18 +1398,18 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>thorwhalen/keeptabs</code>                                                           |
-| Run          | <a href="https://github.com/thorwhalen/keeptabs/actions/runs/36307882619">36307882619</a>  |
+| Run          | <a href="https://github.com/thorwhalen/keeptabs/actions/runs/44933746944">44933746944</a>  |
 | Ref          | <code>refs/heads/main</code>                                                               |
-| Event commit | <code>ce2ec5e95d6af3deb1673b47b2f0bf32ebb57233</code> (in the history of the built commit) |
+| Event commit | <code>04fe7d59f77649226a3ceef4a2f38915c661523a</code> (in the history of the built commit) |
 
 ## Tools
 
 |          |         |
 |----------|---------|
-| epythet  | 0.2.12  |
-| Sphinx   | 9.1.0   |
+| epythet  | 0.2.23  |
+| Sphinx   | 9.1.1   |
 | docutils | 0.22.4  |
-| Python   | 3.12.14 |
+| Python   | 3.12.16 |
 
 ## Configuration as resolved
 
@@ -1423,14 +1425,14 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 ## Package on PyPI
 
-<code>keeptabs</code> is not on PyPI.
+Latest release: <a href="https://pypi.org/project/keeptabs/0.0.2/">0.0.2</a>, newer than the documented version (0.0.1).
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/keeptabs && cd keeptabs
-git checkout ce2ec5e95d6af3deb1673b47b2f0bf32ebb57233
-pip install "epythet==0.2.12"
+git checkout 04fe7d59f77649226a3ceef4a2f38915c661523a
+pip install "epythet==0.2.23"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```
 

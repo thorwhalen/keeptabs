@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "built_at": "2026-09-27T09:00:00Z",
+  "built_at": "2026-11-21T18:08:22Z",
   "package": {
     "name": "keeptabs",
     "version": "0.0.1",
@@ -9,31 +9,31 @@
   },
   "git": {
     "available": true,
-    "commit": "ce2ec5e95d6af3deb1673b47b2f0bf32ebb57233",
-    "short_commit": "ce2ec5e",
+    "commit": "04fe7d59f77649226a3ceef4a2f38915c661523a",
+    "short_commit": "04fe7d5",
     "branch": "main",
     "tags": [],
     "dirty": false,
     "remote_url": "https://github.com/thorwhalen/keeptabs",
-    "commit_url": "https://github.com/thorwhalen/keeptabs/commit/ce2ec5e95d6af3deb1673b47b2f0bf32ebb57233",
+    "commit_url": "https://github.com/thorwhalen/keeptabs/commit/04fe7d59f77649226a3ceef4a2f38915c661523a",
     "error": null
   },
   "ci": {
     "provider": "github",
     "repository": "thorwhalen/keeptabs",
-    "sha": "ce2ec5e95d6af3deb1673b47b2f0bf32ebb57233",
+    "sha": "04fe7d59f77649226a3ceef4a2f38915c661523a",
     "sha_in_history": true,
     "ref": "refs/heads/main",
     "ref_name": "main",
-    "run_id": "36307882619",
-    "run_url": "https://github.com/thorwhalen/keeptabs/actions/runs/36307882619",
+    "run_id": "44933746944",
+    "run_url": "https://github.com/thorwhalen/keeptabs/actions/runs/44933746944",
     "server_url": "https://github.com"
   },
   "tools": {
-    "epythet": "0.2.12",
-    "sphinx": "9.1.0",
+    "epythet": "0.2.23",
+    "sphinx": "9.1.1",
     "docutils": "0.22.4",
-    "python": "3.12.14"
+    "python": "3.12.16"
   },
   "config": {
     "theme": "auto",
@@ -60,14 +60,16 @@
   },
   "pypi": {
     "checked": true,
-    "latest": null,
-    "relation": "unknown",
+    "latest": "0.0.2",
+    "relation": "behind",
     "error": null
   },
-  "reproduce": "git clone https://github.com/thorwhalen/keeptabs && cd keeptabs\ngit checkout ce2ec5e95d6af3deb1673b47b2f0bf32ebb57233\npip install \"epythet==0.2.12\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
+  "reproduce": "git clone https://github.com/thorwhalen/keeptabs && cd keeptabs\ngit checkout 04fe7d59f77649226a3ceef4a2f38915c661523a\npip install \"epythet==0.2.23\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
   "warnings": [],
   "alignment": {
-    "aligned": true,
-    "notes": []
+    "aligned": false,
+    "notes": [
+      "The documented version (0.0.1) is behind the latest release on PyPI (0.0.2): `pip install keeptabs` gives newer code than these docs describe."
+    ]
   }
 }

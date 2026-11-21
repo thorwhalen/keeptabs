@@ -31,20 +31,17 @@ A watch specification that cannot be used, with the reason and the fix.
 
 A yes or no, from a boolean or from the words for one.
 
-* **Return type:**
-  [`bool`](https://docs.python.org/3/builtins/functions.html#bool)
-
 ```pycon
 >>> as_bool('false', what='enabled'), as_bool(True, what='enabled')
 (False, True)
 ```
 
+* **Return type:**
+  [`bool`](https://docs.python.org/3/builtins/functions.html#bool)
+
 ### keeptabs.spec.blocked_source_ids(spec)
 
 Sources that wait on a human action that is still open.
-
-* **Return type:**
-  [`set`](https://docs.python.org/3/builtins/stdtypes.html#set)
 
 ```pycon
 >>> spec = normalize_spec({'id': 'w', 'sources': [{'kind': 'email', 'sender': 'a@b.c', 'id': 'nl'}],
@@ -53,12 +50,12 @@ Sources that wait on a human action that is still open.
 {'nl'}
 ```
 
+* **Return type:**
+  [`set`](https://docs.python.org/3/builtins/stdtypes.html#set)
+
 ### keeptabs.spec.normalize_source(source)
 
 One source with defaults filled in and its fields checked.
-
-* **Return type:**
-  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
 
 ```pycon
 >>> s = normalize_source({'kind': 'feed', 'url': 'https://example.com/feed.xml'})
@@ -73,14 +70,14 @@ A kind with no fetcher of its own is accepted, and says what to fetch in `target
 'robots'
 ```
 
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
+
 ### keeptabs.spec.normalize_spec(spec, , watch_id=None)
 
 A complete, checked copy of a watch specification.
 
 Only `id` (or `title`) is required: a spec starts as a vague idea.
-
-* **Return type:**
-  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
 
 ```pycon
 >>> spec = normalize_spec({'title': 'Gen AI', 'keywords': ['diffusion'], 'entities': ['Sora']})
@@ -90,14 +87,14 @@ Only `id` (or `title`) is required: a spec starts as a vague idea.
 [{'name': 'Sora', 'id': 'sora', 'kind': 'thing', 'aliases': []}]
 ```
 
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
+
 ### keeptabs.spec.str_list(value, , what='value')
 
 A list of strings from what a hand-written spec may hold.
 
 A bare string is one term, not a list of characters.
-
-* **Return type:**
-  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)
 
 ```pycon
 >>> str_list('diffusion'), str_list(['LLM', 2026]), str_list(None)
@@ -114,14 +111,17 @@ Traceback (most recent call last):
 keeptabs.spec.SpecError: keywords holds False, which is not text. Put the term in quotes, as in "no" or "3.10".
 ```
 
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)
+
 ### keeptabs.spec.target_field(kind)
 
 The field of a source that says what to fetch.
-
-* **Return type:**
-  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
 
 ```pycon
 >>> target_field('feed'), target_field('github_releases'), target_field('my_own_kind')
 ('url', 'repo', 'target')
 ```
+
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)

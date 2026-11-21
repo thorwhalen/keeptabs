@@ -2,16 +2,18 @@
 
 # About this build
 
-This documentation was built on **2026-09-27 09:00 UTC** from commit <a href="https://github.com/thorwhalen/keeptabs/commit/ce2ec5e95d6af3deb1673b47b2f0bf32ebb57233"><code>ce2ec5e</code></a> on branch <code>main</code>, for **keeptabs 0.0.1** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-11-21 18:08 UTC** from commit <a href="https://github.com/thorwhalen/keeptabs/commit/04fe7d59f77649226a3ceef4a2f38915c661523a"><code>04fe7d5</code></a> on branch <code>main</code>, for **keeptabs 0.0.1** (from <code>pyproject.toml</code>).
 
-#### NOTE
-Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
+#### WARNING
+The documentation and the package may be misaligned:
+
+- The documented version (0.0.1) is behind the latest release on PyPI (0.0.2): `pip install keeptabs` gives newer code than these docs describe.
 
 ## Source
 
 |                     |                                                                                                                                                            |
 |---------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/thorwhalen/keeptabs/commit/ce2ec5e95d6af3deb1673b47b2f0bf32ebb57233"><code>ce2ec5e95d6af3deb1673b47b2f0bf32ebb57233</code></a> |
+| Commit              | <a href="https://github.com/thorwhalen/keeptabs/commit/04fe7d59f77649226a3ceef4a2f38915c661523a"><code>04fe7d59f77649226a3ceef4a2f38915c661523a</code></a> |
 | Branch              | <code>main</code>                                                                                                                                          |
 | Tags at this commit | none                                                                                                                                                       |
 | Working tree        | clean                                                                                                                                                      |
@@ -22,18 +24,18 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>thorwhalen/keeptabs</code>                                                           |
-| Run          | <a href="https://github.com/thorwhalen/keeptabs/actions/runs/36307882619">36307882619</a>  |
+| Run          | <a href="https://github.com/thorwhalen/keeptabs/actions/runs/44933746944">44933746944</a>  |
 | Ref          | <code>refs/heads/main</code>                                                               |
-| Event commit | <code>ce2ec5e95d6af3deb1673b47b2f0bf32ebb57233</code> (in the history of the built commit) |
+| Event commit | <code>04fe7d59f77649226a3ceef4a2f38915c661523a</code> (in the history of the built commit) |
 
 ## Tools
 
 |          |         |
 |----------|---------|
-| epythet  | 0.2.12  |
-| Sphinx   | 9.1.0   |
+| epythet  | 0.2.23  |
+| Sphinx   | 9.1.1   |
 | docutils | 0.22.4  |
-| Python   | 3.12.14 |
+| Python   | 3.12.16 |
 
 ## Configuration as resolved
 
@@ -49,14 +51,14 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 ## Package on PyPI
 
-<code>keeptabs</code> is not on PyPI.
+Latest release: <a href="https://pypi.org/project/keeptabs/0.0.2/">0.0.2</a>, newer than the documented version (0.0.1).
 
 ## Reproduce
 
 ```bash
 git clone https://github.com/thorwhalen/keeptabs && cd keeptabs
-git checkout ce2ec5e95d6af3deb1673b47b2f0bf32ebb57233
-pip install "epythet==0.2.12"
+git checkout 04fe7d59f77649226a3ceef4a2f38915c661523a
+pip install "epythet==0.2.23"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```
 

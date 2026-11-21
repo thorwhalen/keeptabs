@@ -35,15 +35,15 @@ failing channel does not stop the others.
 Text that renders as itself, on one line, in Markdown and in HTML: no link,
 tag, mention, heading or emphasis of its own.
 
-* **Return type:**
-  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
-
 ```pycon
 >>> print(escape_text('Sprout <!channel> [click](https://evil.example) & co'))
 Sprout &lt;!channel&gt; \[click\](https://evil.example) &amp; co
 >>> print(escape_text('ping @someone about #12\n# A heading'))
 ping &#64;someone about &#35;12 &#35; A heading
 ```
+
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
 
 ### keeptabs.digest.make_digest(spec, mall, , since=None, now=None, summarizer=None, send=False, senders=None, mark_reported=None)
 
@@ -61,9 +61,6 @@ when a delivery failed, so a digest that did not arrive is sent again.
 
 A digest as Markdown, with no model involved.
 
-* **Return type:**
-  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
-
 ```pycon
 >>> print(render_markdown({'title': 'Gen AI', 'since': '2026-01-01T00:00:00+00:00',
 ...     'until': '2026-01-08T00:00:00+00:00', 'total_new': 1, 'shown': 1, 'sections': [
@@ -78,6 +75,9 @@ A digest as Markdown, with no model involved.
 
 - [A model](https://example.com/a) (blog, 2026-01-05). It generates.
 ```
+
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
 
 ### keeptabs.digest.scheduled_digest(, summarizer=None, senders=None)
 

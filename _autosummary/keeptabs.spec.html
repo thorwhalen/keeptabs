@@ -30,18 +30,19 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=64cc4de3f052d77215f0" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=75c7c72ae941e8b558d8" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=75c7c72ae941e8b558d8" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx_autodoc_typehints.css?v=057ac668" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/epythet.css?v=933dc1fd" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../_static/scripts/fontawesome.js?digest=64cc4de3f052d77215f0"></script>
+  <script defer src="../_static/scripts/fontawesome.js?digest=75c7c72ae941e8b558d8"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
     <script src="../_static/documentation_options.js?v=d45e8c67"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
@@ -55,6 +56,7 @@
     <link rel="next" title="keeptabs.stores" href="keeptabs.stores.html" />
     <link rel="prev" title="keeptabs.matching" href="keeptabs.matching.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="color-scheme" content="light dark"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="0.0.1" />
   
@@ -104,7 +106,7 @@
   
     <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <button type="button" class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+  <button type="button" class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation" aria-expanded="false" aria-controls="pst-primary-sidebar-modal">
     <span class="fa-solid fa-bars"></span>
   </button>
   
@@ -174,14 +176,14 @@
 
 <div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
   <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
-    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto" title="System Settings"></i>
   </button>
   <ul class="dropdown-menu dropdown-menu-end">
-    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
-    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
-    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg me-1"></i>Dark</button></li>
   </ul>
 </div></div>
       
@@ -216,7 +218,7 @@
   
 
   
-    <button type="button" class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+    <button type="button" class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page" aria-expanded="false" aria-controls="pst-secondary-sidebar-modal">
       <span class="fa-solid fa-outdent"></span>
     </button>
   
@@ -230,7 +232,7 @@
       
       
       
-      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <dialog id="pst-primary-sidebar-modal" tabindex="-1"></dialog>
       <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
@@ -273,14 +275,14 @@
 
 <div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
   <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
-    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto" title="System Settings"></i>
   </button>
   <ul class="dropdown-menu dropdown-menu-end">
-    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
-    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
-    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg me-1"></i>Dark</button></li>
   </ul>
 </div></div>
         
@@ -365,7 +367,7 @@
     
     <li class="breadcrumb-item breadcrumb-home">
       <a href="../index.html" class="nav-link" aria-label="Home">
-        <i class="fa-solid fa-home"></i>
+        <i class="fa-solid fa-house"></i>
       </a>
     </li>
     
@@ -433,7 +435,7 @@ rejects what cannot work, so every other module may assume a complete spec.</p>
 <dl class="py exception">
 <dt class="sig sig-object py" id="keeptabs.spec.SpecError">
 <span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">keeptabs.spec.</span></span><span class="sig-name descname"><span class="pre">SpecError</span></span><a class="reference internal" href="../_modules/keeptabs/spec.html#SpecError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#keeptabs.spec.SpecError" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#ValueError" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#ValueError" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></a></p>
 <p>A watch specification that cannot be used, with the reason and the fix.</p>
 </dd></dl>
 
@@ -441,43 +443,38 @@ rejects what cannot work, so every other module may assume a complete spec.</p>
 <dt class="sig sig-object py" id="keeptabs.spec.as_bool">
 <span class="sig-prename descclassname"><span class="pre">keeptabs.spec.</span></span><span class="sig-name descname"><span class="pre">as_bool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">what</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/keeptabs/spec.html#as_bool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#keeptabs.spec.as_bool" title="Link to this definition">#</a></dt>
 <dd><p>A yes or no, from a boolean or from the words for one.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span></p>
-</dd>
-</dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">as_bool</span><span class="p">(</span><span class="s1">'false'</span><span class="p">,</span> <span class="n">what</span><span class="o">=</span><span class="s1">'enabled'</span><span class="p">),</span> <span class="n">as_bool</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">what</span><span class="o">=</span><span class="s1">'enabled'</span><span class="p">)</span>
 <span class="go">(False, True)</span>
 </pre></div>
 </div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="keeptabs.spec.blocked_source_ids">
 <span class="sig-prename descclassname"><span class="pre">keeptabs.spec.</span></span><span class="sig-name descname"><span class="pre">blocked_source_ids</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spec</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/keeptabs/spec.html#blocked_source_ids"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#keeptabs.spec.blocked_source_ids" title="Link to this definition">#</a></dt>
 <dd><p>Sources that wait on a human action that is still open.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#set" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">set</span></code></a></span></p>
-</dd>
-</dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">spec</span> <span class="o">=</span> <span class="n">normalize_spec</span><span class="p">({</span><span class="s1">'id'</span><span class="p">:</span> <span class="s1">'w'</span><span class="p">,</span> <span class="s1">'sources'</span><span class="p">:</span> <span class="p">[{</span><span class="s1">'kind'</span><span class="p">:</span> <span class="s1">'email'</span><span class="p">,</span> <span class="s1">'sender'</span><span class="p">:</span> <span class="s1">'a@b.c'</span><span class="p">,</span> <span class="s1">'id'</span><span class="p">:</span> <span class="s1">'nl'</span><span class="p">}],</span>
 <span class="gp">... </span>    <span class="s1">'pending_actions'</span><span class="p">:</span> <span class="p">[{</span><span class="s1">'action'</span><span class="p">:</span> <span class="s1">'Subscribe'</span><span class="p">,</span> <span class="s1">'blocks'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'nl'</span><span class="p">]}]})</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">blocked_source_ids</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
 <span class="go">{'nl'}</span>
 </pre></div>
 </div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#set" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">set</span></code></a></span></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="keeptabs.spec.normalize_source">
 <span class="sig-prename descclassname"><span class="pre">keeptabs.spec.</span></span><span class="sig-name descname"><span class="pre">normalize_source</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/keeptabs/spec.html#normalize_source"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#keeptabs.spec.normalize_source" title="Link to this definition">#</a></dt>
 <dd><p>One source with defaults filled in and its fields checked.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></span></p>
-</dd>
-</dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">normalize_source</span><span class="p">({</span><span class="s1">'kind'</span><span class="p">:</span> <span class="s1">'feed'</span><span class="p">,</span> <span class="s1">'url'</span><span class="p">:</span> <span class="s1">'https://example.com/feed.xml'</span><span class="p">})</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="p">[</span><span class="s1">'id'</span><span class="p">],</span> <span class="n">s</span><span class="p">[</span><span class="s1">'cadence'</span><span class="p">],</span> <span class="n">s</span><span class="p">[</span><span class="s1">'enabled'</span><span class="p">],</span> <span class="n">s</span><span class="p">[</span><span class="s1">'keep_all'</span><span class="p">]</span>
 <span class="go">('feed-https-example-com-feed-xml-7a775d', '1d', True, False)</span>
@@ -488,6 +485,11 @@ rejects what cannot work, so every other module may assume a complete spec.</p>
 <span class="go">'robots'</span>
 </pre></div>
 </div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></span></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
@@ -495,11 +497,6 @@ rejects what cannot work, so every other module may assume a complete spec.</p>
 <span class="sig-prename descclassname"><span class="pre">keeptabs.spec.</span></span><span class="sig-name descname"><span class="pre">normalize_spec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spec</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">watch_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/keeptabs/spec.html#normalize_spec"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#keeptabs.spec.normalize_spec" title="Link to this definition">#</a></dt>
 <dd><p>A complete, checked copy of a watch specification.</p>
 <p>Only <code class="docutils literal notranslate"><span class="pre">id</span></code> (or <code class="docutils literal notranslate"><span class="pre">title</span></code>) is required: a spec starts as a vague idea.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></span></p>
-</dd>
-</dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">spec</span> <span class="o">=</span> <span class="n">normalize_spec</span><span class="p">({</span><span class="s1">'title'</span><span class="p">:</span> <span class="s1">'Gen AI'</span><span class="p">,</span> <span class="s1">'keywords'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'diffusion'</span><span class="p">],</span> <span class="s1">'entities'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'Sora'</span><span class="p">]})</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">spec</span><span class="p">[</span><span class="s1">'id'</span><span class="p">],</span> <span class="n">spec</span><span class="p">[</span><span class="s1">'min_score'</span><span class="p">],</span> <span class="n">spec</span><span class="p">[</span><span class="s1">'digest'</span><span class="p">][</span><span class="s1">'cadence'</span><span class="p">],</span> <span class="n">spec</span><span class="p">[</span><span class="s1">'sources'</span><span class="p">]</span>
 <span class="go">('gen-ai', 1.0, '1w', [])</span>
@@ -507,6 +504,11 @@ rejects what cannot work, so every other module may assume a complete spec.</p>
 <span class="go">[{'name': 'Sora', 'id': 'sora', 'kind': 'thing', 'aliases': []}]</span>
 </pre></div>
 </div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a></span></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
@@ -514,11 +516,6 @@ rejects what cannot work, so every other module may assume a complete spec.</p>
 <span class="sig-prename descclassname"><span class="pre">keeptabs.spec.</span></span><span class="sig-name descname"><span class="pre">str_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">what</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'value'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/keeptabs/spec.html#str_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#keeptabs.spec.str_list" title="Link to this definition">#</a></dt>
 <dd><p>A list of strings from what a hand-written spec may hold.</p>
 <p>A bare string is one term, not a list of characters.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span></p>
-</dd>
-</dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">str_list</span><span class="p">(</span><span class="s1">'diffusion'</span><span class="p">),</span> <span class="n">str_list</span><span class="p">([</span><span class="s1">'LLM'</span><span class="p">,</span> <span class="mi">2026</span><span class="p">]),</span> <span class="n">str_list</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
 <span class="go">(['diffusion'], ['LLM', '2026'], [])</span>
 </pre></div>
@@ -531,21 +528,26 @@ cannot be recovered, so such a term is refused, with the fix:</p>
 <span class="gr">keeptabs.spec.SpecError</span>: <span class="n">keywords holds False, which is not text. Put the term in quotes, as in "no" or "3.10".</span>
 </pre></div>
 </div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#list" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></span></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="keeptabs.spec.target_field">
 <span class="sig-prename descclassname"><span class="pre">keeptabs.spec.</span></span><span class="sig-name descname"><span class="pre">target_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kind</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/keeptabs/spec.html#target_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#keeptabs.spec.target_field" title="Link to this definition">#</a></dt>
 <dd><p>The field of a source that says what to fetch.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
-</dd>
-</dl>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">target_field</span><span class="p">(</span><span class="s1">'feed'</span><span class="p">),</span> <span class="n">target_field</span><span class="p">(</span><span class="s1">'github_releases'</span><span class="p">),</span> <span class="n">target_field</span><span class="p">(</span><span class="s1">'my_own_kind'</span><span class="p">)</span>
 <span class="go">('url', 'repo', 'target')</span>
 </pre></div>
 </div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.15)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span></p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -585,7 +587,7 @@ cannot be recovered, so such a term is refused, with the fix:</p>
             
             
               
-                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <dialog id="pst-secondary-sidebar-modal" tabindex="-1"></dialog>
                 <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
@@ -629,8 +631,8 @@ cannot be recovered, so such a term is refused, with the fix:</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../_static/scripts/bootstrap.js?digest=64cc4de3f052d77215f0"></script>
-<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=64cc4de3f052d77215f0"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -642,7 +644,7 @@ cannot be recovered, so such a term is refused, with the fix:</p>
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.22.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.24.0.
 </p></div>
       
     </div>

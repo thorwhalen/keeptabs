@@ -49,14 +49,14 @@ backs off, and the caller carries on.
 
 Whether a source (or a digest) with this stored state should run now.
 
-* **Return type:**
-  [`bool`](https://docs.python.org/3/builtins/functions.html#bool)
-
 ```pycon
 >>> now = to_datetime('2026-01-02')
 >>> is_due({}, now=now), is_due({'next_due': '2026-01-03T00:00:00+00:00'}, now=now)
 (True, False)
 ```
+
+* **Return type:**
+  [`bool`](https://docs.python.org/3/builtins/functions.html#bool)
 
 ### keeptabs.engine.runnable_sources(spec)
 

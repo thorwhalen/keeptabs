@@ -53,7 +53,7 @@ Bases: [`RuntimeError`](https://docs.python.org/3/builtins/exceptions.html#Runti
 
 Another tick holds the lock.
 
-### *class* keeptabs.Response(status, body=b'', headers=<factory>)
+### *class* keeptabs.Response(status, body=b'', headers=dict())
 
 Bases: [`object`](https://docs.python.org/3/builtins/functions.html#object)
 
@@ -81,15 +81,15 @@ failing channel does not stop the others.
 Text that renders as itself, on one line, in Markdown and in HTML: no link,
 tag, mention, heading or emphasis of its own.
 
-* **Return type:**
-  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
-
 ```pycon
 >>> print(escape_text('Sprout <!channel> [click](https://evil.example) & co'))
 Sprout &lt;!channel&gt; \[click\](https://evil.example) &amp; co
 >>> print(escape_text('ping @someone about #12\n# A heading'))
 ping &#64;someone about &#35;12 &#35; A heading
 ```
+
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
 
 ### keeptabs.http_get(url, , etag=None, last_modified=None, timeout=30)
 
@@ -102,9 +102,6 @@ GET a URL politely: identified, and conditional when validators are known.
 
 Score an item against a spec’s keywords, subtopics and entities.
 
-* **Return type:**
-  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
-
 ```pycon
 >>> spec = {'keywords': ['diffusion'], 'exclude_keywords': ['crypto'],
 ...     'subtopics': [{'id': 'video', 'priority': 'high', 'keywords': ['text-to-video']}],
@@ -115,6 +112,9 @@ Score an item against a spec’s keywords, subtopics and entities.
 >>> keyword_matcher({'title': 'Diffusion of crypto', 'summary': ''}, spec)['score']
 0.0
 ```
+
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
 
 ### keeptabs.make_digest(spec, mall, , since=None, now=None, summarizer=None, send=False, senders=None, mark_reported=None)
 
@@ -132,22 +132,19 @@ when a delivery failed, so a digest that did not arrive is sent again.
 
 The stores of one watch, in memory: for tests and throwaway runs.
 
-* **Return type:**
-  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
-
 ```pycon
 >>> sorted(memory_mall()) == sorted(STORE_KINDS)
 True
 ```
+
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
 
 ### keeptabs.normalize_spec(spec, , watch_id=None)
 
 A complete, checked copy of a watch specification.
 
 Only `id` (or `title`) is required: a spec starts as a vague idea.
-
-* **Return type:**
-  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
 
 ```pycon
 >>> spec = normalize_spec({'title': 'Gen AI', 'keywords': ['diffusion'], 'entities': ['Sora']})
@@ -157,12 +154,12 @@ Only `id` (or `title`) is required: a spec starts as a vague idea.
 [{'name': 'Sora', 'id': 'sora', 'kind': 'thing', 'aliases': []}]
 ```
 
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
+
 ### keeptabs.render_markdown(digest)
 
 A digest as Markdown, with no model involved.
-
-* **Return type:**
-  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
 
 ```pycon
 >>> print(render_markdown({'title': 'Gen AI', 'since': '2026-01-01T00:00:00+00:00',
@@ -178,6 +175,9 @@ A digest as Markdown, with no model involved.
 
 - [A model](https://example.com/a) (blog, 2026-01-05). It generates.
 ```
+
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
 
 ### keeptabs.scheduled_digest(, summarizer=None, senders=None)
 
@@ -224,9 +224,6 @@ A watch or a source that fails is reported in `failures` and does not stop the r
 
 The stores of one watch.
 
-* **Return type:**
-  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
-
 ```pycon
 >>> import tempfile
 >>> mall = watch_mall('demo', rootdir=tempfile.mkdtemp())
@@ -236,6 +233,9 @@ The stores of one watch.
 >>> mall['items']['abc'], list(mall['items'])
 ({'title': 'Ça marche'}, ['abc'])
 ```
+
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
 
 ### keeptabs.whats_new(spec, mall, , since=None, max_items=None, now=None)
 

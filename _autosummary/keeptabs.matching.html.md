@@ -21,9 +21,6 @@ the spec’s keywords and entity names, weighted by where they occur.
 
 Score an item against a spec’s keywords, subtopics and entities.
 
-* **Return type:**
-  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)
-
 ```pycon
 >>> spec = {'keywords': ['diffusion'], 'exclude_keywords': ['crypto'],
 ...     'subtopics': [{'id': 'video', 'priority': 'high', 'keywords': ['text-to-video']}],
@@ -34,3 +31,6 @@ Score an item against a spec’s keywords, subtopics and entities.
 >>> keyword_matcher({'title': 'Diffusion of crypto', 'summary': ''}, spec)['score']
 0.0
 ```
+
+* **Return type:**
+  [`dict`](https://docs.python.org/3/builtins/stdtypes.html#dict)

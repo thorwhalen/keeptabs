@@ -35,7 +35,7 @@ escaped again where it is rendered ([`keeptabs.digest`](keeptabs.digest.html.md#
 | [`Response`](#keeptabs.fetchers.Response)(status[, body, headers])   | What a fetcher needs from an HTTP exchange.   |
 |--------------------------------------------------------------------------------------|-----------------------------------------------|
 
-### *class* keeptabs.fetchers.Response(status, body=b'', headers=<factory>)
+### *class* keeptabs.fetchers.Response(status, body=b'', headers=dict())
 
 Bases: [`object`](https://docs.python.org/3/builtins/functions.html#object)
 
@@ -45,13 +45,13 @@ What a fetcher needs from an HTTP exchange.
 
 The distinct http(s) links in a text, in order of appearance.
 
-* **Return type:**
-  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)
-
 ```pycon
 >>> extract_links('see https://a.example/x, and <a href="https://b.example">b</a>')
 ['https://a.example/x', 'https://b.example']
 ```
+
+* **Return type:**
+  [`list`](https://docs.python.org/3/builtins/stdtypes.html#list)
 
 ### keeptabs.fetchers.fetch_arxiv(source, \*, state, http_get=<function http_get>)
 
@@ -94,12 +94,12 @@ Readable text from an HTML fragment, with no tag left in it.
 Entities are decoded before tags are removed, so an escaped tag does not
 come back to life.
 
-* **Return type:**
-  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
-
 ```pycon
 >>> strip_html('<p>Hello&nbsp;<b>world</b></p>')
 'Hello world'
 >>> strip_html('safe &lt;script&gt;alert(1)&lt;/script&gt; text')
 'safe alert(1) text'
 ```
+
+* **Return type:**
+  [`str`](https://docs.python.org/3/builtins/stdtypes.html#str)
